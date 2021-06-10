@@ -21,11 +21,16 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
     name: 'AddedNote',
     components: {
 
     },
+    data() {
+        return {
+        }
+    }
 
 }
 </script>

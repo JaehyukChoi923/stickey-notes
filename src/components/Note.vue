@@ -19,6 +19,7 @@
               top
               right
               color="pink"
+              @click="addNote(new_text); new_text=''"
             >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
@@ -31,11 +32,22 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
-    name: 'Note',
-    components: {
+  name: 'Note',
+  components: {
 
-    },
+  },
+  data: () => {
+    return {
+      new_text: ''
+  }
+},
+  methods: {
+    ...mapActions(['addNote'])
+    
+  }
+  
 
 }
 </script>
