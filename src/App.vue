@@ -2,7 +2,7 @@
   <div id="app">
   <v-app id="inspire">
     <v-app id="inspire">
-      <v-navigation-drawer
+      <!-- <v-navigation-drawer
         v-model="drawer"
         app
       >
@@ -24,44 +24,19 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-      </v-navigation-drawer>
+      </v-navigation-drawer> -->
   
       <v-app-bar
         app
         color="indigo"
         dark
       >
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title>Application</v-toolbar-title>
+        <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon> -->
+        <v-toolbar-title>Stickey Notes</v-toolbar-title>
       </v-app-bar>
   
       <v-main>
-        <v-container
-          class="fill-height"
-          fluid
-        >
-          <v-row
-            align="center"
-            justify="center"
-          >
-            <v-col class="text-center">
-              <!-- <v-tooltip left>
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    :href="source"
-                    icon
-                    large
-                    target="_blank"
-                    v-on="on"
-                  >
-                    <v-icon large>mdi-code-tags</v-icon>
-                  </v-btn>
-                </template>
-                <span>Source</span>
-              </v-tooltip> -->
-            </v-col>
-          </v-row>
-        </v-container>
+        <Board/>
       </v-main>
       <v-footer
         color="indigo"
@@ -76,12 +51,13 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld';
-
+import Board from './components/Board';
 export default {
   name: 'App',
 
   components: {
     // HelloWorld,
+    Board,
   },
 
   data: () => ({
