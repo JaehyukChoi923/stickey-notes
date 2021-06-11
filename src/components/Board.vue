@@ -8,6 +8,30 @@
       <v-row>
         <v-col cols="9" class="mt-3">
           <h3>노트 목록</h3>
+          <div style="position:relative; margin:50px;">
+            <div class="testmove" ref="parentEl">
+              <movable class="modaltitle" target="parentEl"
+                >modal behavior</movable
+              >`
+              <span>not movable</span>
+            </div>
+            <movable class="testmove" posTop="444" :grid="20"
+              ><span>grid:20</span></movable
+            >
+            <movable class="testmove" posTop="222" posLeft="222" shiftKey="true"
+              ><span>Shift Key Behavior</span></movable
+            >
+            <movable class="testmove" posLeft="444" :bounds="{ x: [0, 0] }"
+              ><span>bounds:only y</span></movable
+            >
+            <movable
+              class="testmove"
+              posTop="444"
+              posLeft="444"
+              :bounds="{ y: [0, 0] }"
+              ><span>bounds:only x</span></movable
+            >
+          </div>
           <!-- <AddedNote v-for="(note, index) in notes" :key="index"/> -->
           <v-container fluid v-for="(note, index) in notes" :key="index">
             <v-row>
@@ -21,8 +45,7 @@
                     style="height: 300px; border:solid;"
                     class="grey lighten-5"
                   >
-                    <v-textarea :value="note">
-                    </v-textarea>
+                    <v-textarea :value="note"> </v-textarea>
                     <p>{{ index }}</p>
                   </v-card-text>
                   <v-card-text style="height: 10px; position: relative ">
@@ -57,10 +80,26 @@ export default {
     ...mapGetters(["notes"])
   },
   mounted() {
-    this.$store.dispatch("getNotes")
+    this.$store.dispatch("getNotes");
   }
 };
 </script>
 
 <style>
+.testmove {
+  display: block;
+  position: absolute;
+  top: 0;
+  height: 150px;
+  width: 150px;
+  margin: 200px;
+  background: #333;
+  color: white;
+}
+.modaltitle {
+  background: blue;
+  display: block;
+  width: 100%;
+  color: white;
+}
 </style>
