@@ -17,8 +17,8 @@
             </div> -->
             <div>
               
-            <movable :id="index" class="testmove" posTop="10" 
-            v-for="(note, index) in notes" :key="index" @complete="test(note)"
+            <movable :id="note.idx" class="testmove" posTop="10" 
+            v-for="(note, index) in notes" :key="index" @complete="drop(note)"
               >
               <span>{{ note }}</span></movable
             >
@@ -48,8 +48,17 @@ export default {
   },
   methods: {
     ...mapActions(['updateNote']),
-    test() {
-      // alert(note.idx)
+    drop(note) {
+      // note.idx => id
+      console.log(note)
+      console.log(document.getElementById(note.idx).style.top)
+      console.log(document.getElementById(note.idx).style.left)
+      let object = JSON.parse(localStorage.getItem(note.idx))
+      // console.log(object)
+      object.top = document.getElementById(note.idx).style.top
+      object.left = document.getElementById(note.idx).style.left
+      console.log(object)
+      localStorage.setItem(object.idx, JSON.stringify(object));
     }
   },
   computed: {

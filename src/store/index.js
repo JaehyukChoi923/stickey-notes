@@ -27,13 +27,19 @@ export default new Vuex.Store({
   actions: {
     addNote({commit, state}, payload) {
       state.MaxIdx += 1
-      var object = {idx:state.MaxIdx, text:payload}
-      commit('setNotes', JSON.stringify(object))
+      // object 만들고
+      var object = {idx:state.MaxIdx, text:payload, top:"10px", left:"200px"}
+      // 스토어에 저장
+      // commit('setNotes', object)
+      // commit('setNotes', object)
+      // 로컬 스토리지에 저장
       localStorage.setItem(state.MaxIdx, JSON.stringify(object))
-      // dispatch('getNotes')
+      commit('setNotes', JSON.parse(localStorage.getItem(state.MaxIdx)))
     },
-    updateNote() {
-
+    updateNote(payload) {
+      // let object = JSON.parse(localStorage.getItem(payload.idx))
+      // console.log(localStorage.getItem(payload.idx))
+      console.log(payload)
     },
     getNotes({commit, state}) {
       for(let i=0; i<localStorage.length; i++) {
@@ -46,7 +52,9 @@ export default new Vuex.Store({
         console.log('key:'+key)
         console.log(`${key}: ${localStorage.getItem(key)}`);
         if (key <= localStorage.length) {
-          commit('setNotes', localStorage.getItem(key))
+          commit('setNotes', JSON.parse(localStorage.getItem(key)))
+          console.log(key)
+          console.log(document.getElementById(key))
         }
         
       }
