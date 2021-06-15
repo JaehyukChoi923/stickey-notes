@@ -19,7 +19,16 @@
             <!-- :posTop="note.top" :posLeft="note.left" -->
             <movable :id="note.idx" class="testmove" :posTop="note.top" :posLeft="note.left" 
              @complete="drop(note)"
-              >
+              ><svg id="close" 
+                style="width: 24px; height: 24px" 
+                viewBox="0 0 24 24"
+                @click="delNote(note)"
+                disabled>
+                  <path
+                    fill="currentColor"
+                    d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                  />
+                </svg>
               <span>{{ note.idx+'번 글' }}</span><br>
               <span>{{ note.text }}</span></movable
             >
@@ -62,6 +71,9 @@ export default {
       console.log(object)
       localStorage.setItem(object.idx, JSON.stringify(object));
       // this.$store.dispatch('getNotes')
+    },
+    delNote() {
+      alert('삭제')
     }
   },
   computed: {
@@ -89,5 +101,8 @@ export default {
   display: block;
   width: 100%;
   color: white;
+}
+#close:hover {
+  color: red;
 }
 </style>
