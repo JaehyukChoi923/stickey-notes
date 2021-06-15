@@ -15,11 +15,10 @@
               >`
               <span>not movable</span>
             </div> -->
-            <div>
+            <div v-for="(note, index) in notes" :key="index">
             <!-- :posTop="note.top" :posLeft="note.left" -->
             <movable :id="note.idx" class="testmove" :posTop="note.top" :posLeft="note.left" 
-            v-bind:style="{ posTop: note.top, posLeft: note.left }"
-            v-for="(note, index) in notes" :key="index" @complete="drop(note)"
+             @complete="drop(note)"
               >
               <span>{{ note.idx+'번 글' }}</span><br>
               <span>{{ note.text }}</span></movable
