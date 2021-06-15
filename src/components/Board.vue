@@ -16,11 +16,13 @@
               <span>not movable</span>
             </div> -->
             <div>
-              
-            <movable :id="note.idx" class="testmove" posTop="10" 
+            <!-- :posTop="note.top" :posLeft="note.left" -->
+            <movable :id="note.idx" class="testmove" :posTop="note.top" :posLeft="note.left" 
+            v-bind:style="{ posTop: note.top, posLeft: note.left }"
             v-for="(note, index) in notes" :key="index" @complete="drop(note)"
               >
-              <span>{{ note }}</span></movable
+              <span>{{ note.idx+'번 글' }}</span><br>
+              <span>{{ note.text }}</span></movable
             >
             </div>
           </div>
@@ -51,14 +53,16 @@ export default {
     drop(note) {
       // note.idx => id
       console.log(note)
-      console.log(document.getElementById(note.idx).style.top)
-      console.log(document.getElementById(note.idx).style.left)
+      // console.log(document.getElementById(note.idx).style.top)
+      // console.log(document.getElementById(note.idx).style.left)
+      console.log(note.posTop)
       let object = JSON.parse(localStorage.getItem(note.idx))
       // console.log(object)
-      object.top = document.getElementById(note.idx).style.top
-      object.left = document.getElementById(note.idx).style.left
+      object.top = parseInt(document.getElementById(note.idx).style.top)
+      object.left = parseInt(document.getElementById(note.idx).style.left)
       console.log(object)
       localStorage.setItem(object.idx, JSON.stringify(object));
+      // this.$store.dispatch('getNotes')
     }
   },
   computed: {
