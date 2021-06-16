@@ -68,6 +68,7 @@ export default {
     close() {
       this.opened = false;
       this.contextData = null;
+      alert('클릭')
     },
     referenceObject(evt) {
       const left = evt.clientX;

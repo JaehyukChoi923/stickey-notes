@@ -9,31 +9,8 @@
         <v-col cols="9" class="mt-3">
           <h3>노트 목록</h3>
           <div style="position:relative; margin:50px;">
-            <!-- <div class="testmove" ref="parentEl">
-              <movable class="modaltitle" target="parentEl"
-                >modal behavior</movable
-              >`
-              <span>not movable</span>
-            </div> -->
-            <div v-for="(note, index) in notes" :key="index" @contextmenu.prevent="$refs.menu.open($event, 'Payload')">
-            <!-- :posTop="note.top" :posLeft="note.left" -->
-                  <Popper/>
-      <ContextMenu ref="menu">
-      <template slot-scope="{ contextData }">
-        <ContextMenuItem @click.native="$refs.menu.close">
-          Action 1 {{ contextData }}
-        </ContextMenuItem>
-         <ContextMenuItem @click.native="$refs.menu.close">
-          Action 2 {{ contextData }}
-        </ContextMenuItem>
-        <ContextMenuItem @click.native="$refs.menu.close">
-          Action 3 {{ contextData }}
-        </ContextMenuItem>
-         <ContextMenuItem @click.native="$refs.menu.close">
-          Action 4 {{ contextData }}
-        </ContextMenuItem>
-      </template>
-    </ContextMenu>
+            <div v-for="(note, index) in notes" :key="index">
+
             <movable :id="note.idx" class="testmove" :posTop="note.top" :posLeft="note.left" 
              @complete="drop(note)"
               ><svg id="close" 
@@ -60,16 +37,16 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Note from "./Note";
-import ContextMenu from "./ContextMenu";
-import ContextMenuItem from "./ContextMenuItem";
+// import ContextMenu from "./ContextMenu";
+// import ContextMenuItem from "./ContextMenuItem";
 
 // import AddedNote from './AddedNote'
 export default {
   name: "Board",
   components: {
     Note,
-    ContextMenu,
-    ContextMenuItem
+    // ContextMenu,
+    // ContextMenuItem
     // AddedNote
   },
   data: () => {
