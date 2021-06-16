@@ -8,24 +8,39 @@
       <v-row>
         <v-col cols="9" class="mt-3">
           <h3>노트 목록</h3>
-          <div style="position:relative; margin:50px;">
-            <div v-for="(note, index) in notes" :key="index">
-
-            <movable :id="note.idx" class="testmove" :posTop="note.top" :posLeft="note.left" 
-             @complete="drop(note)"
-              ><svg id="close" 
-                style="width: 24px; height: 24px" 
-                viewBox="0 0 24 24"
-                @click="delNote(note)"
-                disabled>
+          <Context ref="context-menu" 
+          @deleteNote="deleteNote($store.state.selectedIdx)"/>
+          <div style="position: relative; margin: 50px">
+            <div
+              v-for="(note, index) in notes"
+              :key="index"
+              @contextmenu.prevent="$refs['context-menu'].$refs.menu.open"
+            >
+            <!-- context menu 를 방지할수있는 지시어 -->
+            <!-- 이 .prevent 는 Vue 에서 제공하는 것으로, e.preventDefault 를 대체해준다. -->
+              <movable
+                :id="note.idx"
+                class="testmove"
+                :posTop="note.top"
+                :posLeft="note.left"
+                @start="select(note.idx)"
+                @complete="drop(note)"
+                ><svg
+                  id="close"
+                  style="width: 24px; height: 24px"
+                  viewBox="0 0 24 24"
+                  @click="delNote(note)"
+                  disabled
+                >
                   <path
                     fill="currentColor"
                     d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
                   />
                 </svg>
-              <span>{{ note.idx+'번 글' }}</span><br>
-              <span>{{ note.text }}</span></movable
-            >
+                <span>{{ note.idx + "번 글" }}</span
+                ><br />
+                <span>{{ note.text }}</span></movable
+              >
             </div>
           </div>
         </v-col>
@@ -37,6 +52,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Note from "./Note";
+import Context from "./Context";
 // import ContextMenu from "./ContextMenu";
 // import ContextMenuItem from "./ContextMenuItem";
 
@@ -45,6 +61,7 @@ export default {
   name: "Board",
   components: {
     Note,
+    Context,
     // ContextMenu,
     // ContextMenuItem
     // AddedNote
@@ -52,31 +69,34 @@ export default {
   data: () => {
     return {
       // ...mapState(["notes"]),
-      tmpnotes: [1, 2]
+      tmpnotes: [1, 2],
     };
   },
   methods: {
-    ...mapActions(['updateNote']),
+    ...mapActions(["updateNote"]),
     drop(note) {
       // note.idx => id
-      console.log(note)
+      console.log(note);
       // console.log(document.getElementById(note.idx).style.top)
       // console.log(document.getElementById(note.idx).style.left)
-      console.log(note.posTop)
-      let object = JSON.parse(localStorage.getItem(note.idx))
+      console.log(note.posTop);
+      let object = JSON.parse(localStorage.getItem(note.idx));
       // console.log(object)
-      object.top = parseInt(document.getElementById(note.idx).style.top)
-      object.left = parseInt(document.getElementById(note.idx).style.left)
-      console.log(object)
+      object.top = parseInt(document.getElementById(note.idx).style.top);
+      object.left = parseInt(document.getElementById(note.idx).style.left);
+      console.log(object);
       localStorage.setItem(object.idx, JSON.stringify(object));
       // this.$store.dispatch('getNotes')
     },
-    delNote() {
-      alert('삭제')
+    deleteNote(idx) {
+      alert(idx+"번 삭제");
+    },
+    select(idx) {
+      this.$store.state.selectedIdx = idx
     }
   },
   computed: {
-    ...mapGetters(["notes"])
+    ...mapGetters(["notes"]),
   },
   mounted() {
     this.$store.dispatch("getNotes");

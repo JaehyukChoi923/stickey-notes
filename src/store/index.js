@@ -8,6 +8,7 @@ export default new Vuex.Store({
     notes: [],
     MaxIdx: 0,
     used: [],
+    selectedIdx: 0
   },
   getters: {
     notes: state => state.notes,

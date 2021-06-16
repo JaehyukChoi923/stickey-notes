@@ -1,6 +1,6 @@
 <template>
-  <div id="app" @contextmenu.prevent="$refs.menu.open($event, 'Payload')">
-    <ContextMenu ref="menu">
+  <div id="app">
+    <!-- <ContextMenu ref="menu">
       <template slot-scope="{ contextData }">
         <ContextMenuItem @click.native="$refs.menu.close">
           Action 1 {{ contextData }}
@@ -15,7 +15,7 @@
           Action 4 {{ contextData }}
         </ContextMenuItem>
       </template>
-    </ContextMenu>
+    </ContextMenu> -->
     <v-app id="inspire">
       <v-app id="inspire">
         <v-app-bar app color="indigo" dark>
@@ -37,16 +37,16 @@
 <script>
 // import HelloWorld from './components/HelloWorld';
 import Board from "./components/Board";
-import ContextMenu from "./components/ContextMenu";
-import ContextMenuItem from "./components/ContextMenuItem";
+// import ContextMenu from "./components/ContextMenu";
+// import ContextMenuItem from "./components/ContextMenuItem";
 
 export default {
   name: "App",
 
   components: {
     Board,
-    ContextMenu,
-    ContextMenuItem,
+    // ContextMenu,
+    // ContextMenuItem,
   },
 
   data: () => ({
