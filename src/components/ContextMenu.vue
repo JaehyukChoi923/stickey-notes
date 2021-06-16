@@ -1,5 +1,4 @@
 <template>
-<!-- https://codesandbox.io/s/xplnkv29w4?from-embed=&file=/src/main.js -->
   <div
     class="context-menu"
     ref="popper"
@@ -10,6 +9,7 @@
     <ul>
       <slot :contextData="contextData" />
     </ul>
+    <Popper/>
   </div>
 </template>
 
