@@ -6,9 +6,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     notes: [],
-    MaxIdx: 0,
+    MaxIdx: -1,
     used: [],
     selectedIdx: 0
+
   },
   getters: {
     notes: state => state.notes,
@@ -19,6 +20,7 @@ export default new Vuex.Store({
       // console.log(payload)
       // console.log(payload.idx)
       state.used.push(payload.idx)
+      state.notes.push(payload)
       
       
       // console.log(document.getElementById(payload.idx))
@@ -31,7 +33,7 @@ export default new Vuex.Store({
       //   return
       // }
       
-      state.notes.push(payload)
+      
       // console.log(payload)
     }
   },
@@ -54,16 +56,17 @@ export default new Vuex.Store({
       console.log(payload)
     },
     getNotes({commit, state}) {
-      for(let i=0; i<localStorage.length; i++) {
+      for(let i=0; i<localStorage.length+10; i++) {
         if (i > state.MaxIdx) {
           state.MaxIdx = i
         }
         let key = localStorage.key(i);
+        // 해당 인덱스(i) 값을 가진 키의 이름을 가져옴
         // console.log('---getNotes---')
         // console.log('i:'+i)
         // console.log('key:'+key)
         // console.log(`${key}: ${localStorage.getItem(key)}`);
-        if (key <= localStorage.length) {
+        if (key <= localStorage.length+10) {
           commit('setNotes', JSON.parse(localStorage.getItem(key)))
           console.log(key)
           var tmp = String(key)
@@ -72,6 +75,7 @@ export default new Vuex.Store({
         }
         
       }
+      state.MaxIdx += 1
     }
   },
   

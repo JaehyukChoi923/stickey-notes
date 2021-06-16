@@ -90,6 +90,10 @@ export default {
     },
     deleteNote(idx) {
       alert(idx+"번 삭제");
+      localStorage.removeItem(idx)
+      this.$store.state.notes = []
+      this.$store.MaxIdx += 1
+      this.$store.dispatch("getNotes");
     },
     select(idx) {
       this.$store.state.selectedIdx = idx
@@ -99,6 +103,8 @@ export default {
     ...mapGetters(["notes"]),
   },
   mounted() {
+    this.$store.state.MaxIdx += 1
+    this.$store.state.notes = []
     this.$store.dispatch("getNotes");
   },
 };
