@@ -37,8 +37,8 @@
                     d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
                   />
                 </svg>
-                <span>{{ note.idx + "번 글" }}</span
-                ><br />
+                <span>{{ note.idx + "번 글" }}</span>
+                <br />
                 <span>{{ note.text }}</span></movable
               >
             </div>
@@ -89,7 +89,7 @@ export default {
       // this.$store.dispatch('getNotes')
     },
     deleteNote(idx) {
-      alert(idx+"번 삭제");
+      // alert(idx+"번 삭제");
       localStorage.removeItem(idx)
       this.$store.state.notes = []
       this.$store.MaxIdx += 1
@@ -103,9 +103,19 @@ export default {
     ...mapGetters(["notes"]),
   },
   mounted() {
-    this.$store.state.MaxIdx += 1
+    // this.$store.state.MaxIdx += 1
     this.$store.state.notes = []
+    console.log('새로고침')
+    console.log('lS값 가져오기: '+parseInt(localStorage.getItem('MaxIdx')))
+    if (parseInt(localStorage.getItem('MaxIdx').isNaN)) {
+      console.log('ls에 값 없음')
+      this.$store.state.MaxIdx = 0
+    } else {
+
+      this.$store.state.MaxIdx = parseInt(localStorage.getItem('MaxIdx'))
+    }
     this.$store.dispatch("getNotes");
+    // localStorage.setItem('MaxIdx', 0)
   },
 };
 </script>

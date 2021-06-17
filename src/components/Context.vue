@@ -4,7 +4,10 @@
       <a @click="deleteNote">Delete</a>
     </li>
     <li>
-      <a>Do something else</a>
+      <a>색상 변경: 빨강</a>
+    </li>
+    <li>
+      <a>색상 변경: 녹색</a>
     </li>
   </vue-context>
 </template>
