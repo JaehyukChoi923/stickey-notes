@@ -21,7 +21,7 @@
               :key="index"
               @contextmenu.prevent="$refs['context-menu'].$refs.menu.open"
             >
-              <!-- context menu 를 방지할수있는 지시어 -->
+              <!-- context menu 를 방지할 수 있는 지시어 -->
               <!-- 이 .prevent 는 Vue 에서 제공하는 것으로, e.preventDefault 를 대체해준다. -->
               <movable
                 :id="note.idx"
@@ -30,24 +30,7 @@
                 :posLeft="note.left"
                 @start="select(note.idx)"
                 @complete="drop(note)"
-                :style="[
-                  {
-                    'background': note.background,
-                  },
-                  swatchStyle(note.background),
-                ]"
-                ><svg
-                  id="close"
-                  style="width: 24px; height: 24px"
-                  viewBox="0 0 24 24"
-                  @click="delNote(note)"
-                  disabled
-                >
-                  <path
-                    fill="currentColor"
-                    d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
-                  />
-                </svg>
+                :style="{ 'background': note.background }">
                 <span>{{ note.idx + "번 노트" }}</span>
                 <br />
                 <span>{{ note.text }}</span></movable
@@ -61,95 +44,73 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import Note from "./Note";
 import Context from "./Context";
-// import ContextMenu from "./ContextMenu";
-// import ContextMenuItem from "./ContextMenuItem";
 
-// import AddedNote from './AddedNote'
 export default {
   name: "Board",
   components: {
     Note,
     Context,
-    // ContextMenu,
-    // ContextMenuItem
-    // AddedNote
   },
   data: () => {
     return {
-      // ...mapState(["notes"]),
-      tmpnotes: [1, 2],
     };
   },
   methods: {
-    ...mapActions(["updateNote"]),
-    drop(note) {
-      // note.idx => id
-      console.log(note);
-      // console.log(document.getElementById(note.idx).style.top)
-      // console.log(document.getElementById(note.idx).style.left)
-      console.log(note.posTop);
+    drop(note) { // localStoarge에 변경 위치를 저장
       let object = JSON.parse(localStorage.getItem(note.idx));
-      // console.log(object)
+
       object.top = parseInt(document.getElementById(note.idx).style.top);
       object.left = parseInt(document.getElementById(note.idx).style.left);
-      console.log(object);
+
       localStorage.setItem(object.idx, JSON.stringify(object));
-      // this.$store.dispatch('getNotes')
     },
-    deleteNote(idx) {
-      // alert(idx+"번 삭제");
-      localStorage.removeItem(idx);
-      this.$store.state.notes = [];
+    deleteNote(idx) { 
+      localStorage.removeItem(idx); // localStorage에서 지워주고
+      this.$store.state.notes = [];  // notes초기화 후
       this.$store.MaxIdx += 1;
-      this.$store.dispatch("getNotes");
+      this.$store.dispatch("getNotes"); // 다시 불러옴.
     },
-    select(idx) {
+    select(idx) { // v-movable의 start event 사용.
       this.$store.state.selectedIdx = idx;
+      // movable 안에 다른 버튼을 둘 수 없어서
+      // movable 밖에 만들고, start event로 idx 저장.
     },
-    changeRed(idx) {
+    changeRed(idx) { // 노트 배경색 바꾸기(빨강)
       let object = JSON.parse(localStorage.getItem(idx))
       object.background = 'red'
       localStorage.setItem(idx, JSON.stringify(object))
       this.$store.state.notes = [];
       this.$store.dispatch("getNotes");
     },
-    changeGreen(idx) {
+    changeGreen(idx) { // 노트 배경색 바꾸기(녹색)
       let object = JSON.parse(localStorage.getItem(idx))
       object.background = 'green'
       localStorage.setItem(idx, JSON.stringify(object))
       this.$store.state.notes = [];
       this.$store.dispatch("getNotes");
     },
-    changeBlack(idx) {
+    changeBlack(idx) { // 노트 배경색 바꾸기(검정)
       let object = JSON.parse(localStorage.getItem(idx))
       object.background = 'black'
       localStorage.setItem(idx, JSON.stringify(object))
       this.$store.state.notes = [];
       this.$store.dispatch("getNotes");
     },
-    swatchStyle(color) {
-      return {background: color}
-    }
   },
   computed: {
     ...mapGetters(["notes"]),
   },
-  mounted() {
-    // this.$store.state.MaxIdx += 1
+  created() {
     this.$store.state.notes = [];
-    console.log("새로고침");
-    console.log("lS값 가져오기: " + parseInt(localStorage.getItem("MaxIdx")));
     if (parseInt(localStorage.getItem("MaxIdx").isNaN)) {
-      console.log("ls에 값 없음");
       this.$store.state.MaxIdx = 0;
     } else {
       this.$store.state.MaxIdx = parseInt(localStorage.getItem("MaxIdx"));
     }
     this.$store.dispatch("getNotes");
-    // localStorage.setItem('MaxIdx', 0)
   },
 };
 </script>
@@ -170,8 +131,5 @@ export default {
   display: block;
   width: 100%;
   color: white;
-}
-#close:hover {
-  color: red;
 }
 </style>
