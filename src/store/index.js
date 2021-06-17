@@ -27,7 +27,7 @@ export default new Vuex.Store({
       state.MaxIdx += 1
       localStorage.setItem('MaxIdx', state.MaxIdx)
       // object 만들고
-      var object = {idx:state.MaxIdx, text:payload, top:10, left:200}
+      var object = {idx:state.MaxIdx, text:payload, top:10, left:200, background:'black'}
       // 스토어에 저장
 
       // 로컬 스토리지에 저장
