@@ -11,9 +11,7 @@
           <Context
             ref="context-menu"
             @deleteNote="deleteNote($store.state.selectedIdx)"
-            @changeRed="changeRed($store.state.selectedIdx)"
-            @changeGreen="changeGreen($store.state.selectedIdx)"
-            @changeBlack="changeBlack($store.state.selectedIdx)"
+            @changeBackground="changeBackground"
           />
           <div style="position: relative; margin: 50px">
             <div
@@ -30,7 +28,18 @@
                 :posLeft="note.left"
                 @start="select(note.idx)"
                 @complete="drop(note)"
-                :style="{ 'background': note.background }">
+                :style="{ background: note.background }"
+              >
+              <!-- event.preventDefault();  -->
+                <svg
+                @click="deleteNote(note.idx)"
+                class="closebtn" 
+                style="width: 24px; height: 24px;" viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                  />
+                </svg>
                 <span>{{ note.idx + "번 노트" }}</span>
                 <br />
                 <span>{{ note.text }}</span></movable
@@ -55,11 +64,11 @@ export default {
     Context,
   },
   data: () => {
-    return {
-    };
+    return {};
   },
   methods: {
-    drop(note) { // localStoarge에 변경 위치를 저장
+    drop(note) {
+      // localStoarge에 변경 위치를 저장
       let object = JSON.parse(localStorage.getItem(note.idx));
 
       object.top = parseInt(document.getElementById(note.idx).style.top);
@@ -67,38 +76,25 @@ export default {
 
       localStorage.setItem(object.idx, JSON.stringify(object));
     },
-    deleteNote(idx) { 
+    deleteNote(idx) {
       localStorage.removeItem(idx); // localStorage에서 지워주고
-      this.$store.state.notes = [];  // notes초기화 후
+      this.$store.state.notes = []; // notes초기화 후
       this.$store.MaxIdx += 1;
       this.$store.dispatch("getNotes"); // 다시 불러옴.
     },
-    select(idx) { // v-movable의 start event 사용.
+    select(idx) {
+      // v-movable의 start event 사용.
       this.$store.state.selectedIdx = idx;
       // movable 안에 다른 버튼을 둘 수 없어서
       // movable 밖에 만들고, start event로 idx 저장.
     },
-    changeRed(idx) { // 노트 배경색 바꾸기(빨강)
-      let object = JSON.parse(localStorage.getItem(idx))
-      object.background = 'red'
-      localStorage.setItem(idx, JSON.stringify(object))
+    changeBackground(color) {
+      let object = JSON.parse(localStorage.getItem(this.$store.state.selectedIdx));
+      object.background = color
+      localStorage.setItem(this.$store.state.selectedIdx, JSON.stringify(object));
       this.$store.state.notes = [];
       this.$store.dispatch("getNotes");
-    },
-    changeGreen(idx) { // 노트 배경색 바꾸기(녹색)
-      let object = JSON.parse(localStorage.getItem(idx))
-      object.background = 'green'
-      localStorage.setItem(idx, JSON.stringify(object))
-      this.$store.state.notes = [];
-      this.$store.dispatch("getNotes");
-    },
-    changeBlack(idx) { // 노트 배경색 바꾸기(검정)
-      let object = JSON.parse(localStorage.getItem(idx))
-      object.background = 'black'
-      localStorage.setItem(idx, JSON.stringify(object))
-      this.$store.state.notes = [];
-      this.$store.dispatch("getNotes");
-    },
+    }
   },
   computed: {
     ...mapGetters(["notes"]),
@@ -131,5 +127,8 @@ export default {
   display: block;
   width: 100%;
   color: white;
+}
+.closebtn:hover {
+  color: red;
 }
 </style>

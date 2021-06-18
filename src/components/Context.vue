@@ -4,13 +4,13 @@
       <a @click="deleteNote">Delete</a>
     </li>
     <li>
-      <a @click="changeRed">색상 변경: 빨강</a>
+      <a @click="changeBackground('red')">색상 변경: 빨강</a>
     </li>
     <li>
-      <a @click="changeGreen">색상 변경: 녹색</a>
+      <a @click="changeBackground('green')">색상 변경: 녹색</a>
     </li>
     <li>
-      <a @click="changeBlack">색상 변경: 검정</a>
+      <a @click="changeBackground('black')">색상 변경: 검정</a>
     </li>
   </vue-context>
 </template>
@@ -25,16 +25,9 @@ export default {
     deleteNote() {
       this.$emit("deleteNote")
     },
-    changeRed() {
-      this.$emit('changeRed')
-    },
-    changeGreen() {
-      this.$emit('changeGreen')
-    },
-    changeBlack() {
-      this.$emit('changeBlack')
+    changeBackground(color) {
+      this.$emit('changeBackground', color)
     }
-    
   }
     
     };
